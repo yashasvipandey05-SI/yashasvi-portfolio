@@ -54,7 +54,7 @@ nav.tabs a.on{border-bottom-color:var(--brand);font-weight:600}
 /* App launcher */
 .launcher{position:fixed;inset:0;background:rgba(8,7,7,.45);z-index:80;display:none;align-items:flex-start;justify-content:center;padding-top:70px}
 .launcher.open{display:flex}
-.launcher-box{background:#fff;border-radius:10px;width:min(720px,92vw);padding:20px 22px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.launcher-box{max-height:calc(100dvh - 90px);overflow:auto;overscroll-behavior:contain;background:#fff;border-radius:10px;width:min(720px,92vw);padding:20px 22px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
 .launcher-box h3{margin:0 0 14px;font-size:18px}
 .apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .apps a{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;transition:.15s}
@@ -71,7 +71,7 @@ nav.tabs a.on{border-bottom-color:var(--brand);font-weight:600}
 .dot-live{width:8px;height:8px;border-radius:50%;background:#45c65a;box-shadow:0 0 0 0 rgba(69,198,90,.7);animation:pulse 2s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(69,198,90,0)}100%{box-shadow:0 0 0 0 rgba(69,198,90,0)}}
 .hero h1{font-size:clamp(34px,5vw,54px);line-height:1.08;margin:16px 0 10px;letter-spacing:-.5px}
-.hero .typed{font-size:clamp(17px,2.2vw,22px);min-height:2em;color:#d8edff}
+.hero .typed{contain:layout paint;font-size:clamp(17px,2.2vw,22px);min-height:2em;color:#d8edff}
 .typed b{color:#fff}
 .caret{display:inline-block;width:2px;height:1.1em;background:#fff;vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -228,7 +228,7 @@ section{padding:64px 0}
 .presets button:hover{background:#34345a}
 .editor{display:flex;padding:12px 14px;gap:10px;font-family:var(--mono);font-size:14px}
 .editor .gutter{color:#5d5d7a;user-select:none}
-.editor textarea{flex:1;background:transparent;border:0;color:#e4e4ef;font:inherit;resize:vertical;min-height:62px;outline:none;caret-color:#ffcc66}
+.editor textarea{flex:1;background:transparent;border:0;color:#e4e4ef;font:inherit;resize:none;height:5.6em;line-height:1.5;overflow:hidden;outline:none;caret-color:#ffcc66}
 .ide-actions{display:flex;justify-content:space-between;align-items:center;padding:0 14px 12px;font-size:12px;color:#8e8eaa;gap:10px;flex-wrap:wrap}
 .results{background:#fff;color:var(--text);max-height:340px;overflow:auto}
 .results table{width:100%;border-collapse:collapse;font-size:13px}
@@ -266,7 +266,7 @@ section{padding:64px 0}
 .comp-head{background:#f3f3f3;border-bottom:1px solid var(--line);padding:10px 16px;font-weight:600;display:flex;justify-content:space-between}
 .comp-row{display:flex;border-bottom:1px solid #eee;align-items:center}
 .comp-row label{width:80px;padding:10px 16px;color:var(--muted);font-size:13px}
-.comp-row input,.comp-row select{flex:1;border:0;padding:10px 12px 10px 0;font:inherit;outline:none;background:transparent}
+.comp-row input,.comp-row select{flex:1;min-width:0;width:100%;border:0;padding:10px 12px 10px 0;font:inherit;outline:none;background:transparent}
 .composer textarea{width:100%;border:0;padding:14px 16px;font:inherit;min-height:150px;resize:vertical;outline:none}
 .comp-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-top:1px solid #eee;gap:10px;flex-wrap:wrap}
 .preview-phone{border:10px solid #181818;border-radius:28px;padding:14px 12px;background:#fff;min-height:330px;font-size:13px}
@@ -281,7 +281,7 @@ footer a{color:#fff}
 /* Modal + toast */
 .modal{position:fixed;inset:0;background:rgba(8,7,7,.5);z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.modal-box{background:#fff;border-radius:10px;width:min(600px,100%);max-height:90vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.modal-box{background:#fff;border-radius:10px;width:min(600px,100%);max-height:90vh;max-height:90dvh;overflow:auto;overscroll-behavior:contain;box-shadow:0 12px 40px rgba(0,0,0,.3)}
 .modal-box header{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .modal-box header h3{margin:0;font-size:18px}
 .modal-box .mb{padding:18px 20px}
@@ -347,12 +347,18 @@ footer a{color:#fff}
   .search{display:none}
   .stats{grid-template-columns:repeat(2,1fr)}
 }
-@media (max-width:640px){
+@media (max-width:900px){
   .flow{flex-direction:column;min-width:0;gap:16px}
   .link,.traveler{display:none}
   .node{display:grid;grid-template-columns:56px 1fr;column-gap:14px;text-align:left;align-items:center}
   .node button{grid-row:1/4;grid-column:1;width:52px;height:52px;font-size:20px}
   .node .tag,.node h4,.node small{grid-column:2;margin:0}
+}
+@media (max-width:640px){
+  .grid{max-height:none;overflow:visible;gap:2px}
+  .grid i{width:8px;height:8px}
+  .results{max-height:none}
+  html{scroll-padding-top:100px}
 }
 @media (max-width:560px){
   .board{grid-template-columns:1fr}
@@ -954,10 +960,11 @@ function confetti(n=90){
     c.style.animationDuration=(1.8+Math.random()*1.8)+"s";c.style.animationDelay=(Math.random()*.5)+"s";
     c.style.borderRadius=Math.random()>.5?"50%":"2px";document.body.appendChild(c);setTimeout(()=>c.remove(),4200);}
 }
-function openModal(kicker,title,html){$("#mKicker").textContent=kicker;$("#mTitle").textContent=title;$("#mBodyEl").innerHTML=html;$("#modal").classList.add("open");$("#modal .x").focus();}
-$$("[data-close]").forEach(b=>b.addEventListener("click",()=>{$("#modal").classList.remove("open");$("#launcher").classList.remove("open");}));
-[$("#modal"),$("#launcher")].forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("open");}));
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#modal").classList.remove("open");$("#launcher").classList.remove("open");}});
+function lockScroll(on){document.body.style.overflow=on?"hidden":"";}
+function openModal(kicker,title,html){lockScroll(true);$("#mKicker").textContent=kicker;$("#mTitle").textContent=title;$("#mBodyEl").innerHTML=html;$("#modal").classList.add("open");$("#modal .x").focus();}
+function closeOverlays(){$("#modal").classList.remove("open");$("#launcher").classList.remove("open");lockScroll(false);}
+document.addEventListener("click",e=>{if(e.target.closest("[data-close],[data-close-l]")||e.target===$("#modal")||e.target===$("#launcher"))closeOverlays();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOverlays();});
 
 /* ================= hero ================= */
 if (PROFILE.photo) $("#avatar").innerHTML = `<img src="${esc(PROFILE.photo)}" alt="Yashasvi Pandey">`;
@@ -969,9 +976,11 @@ $("#yr").textContent = new Date().getFullYear();
     const html=PROFILE.taglines[i%PROFILE.taglines.length], plain=html.replace(/<[^>]+>/g,"");
     let k=0;
     const step=()=>{k++; el.textContent=plain.slice(0,k); if(k<plain.length) setTimeout(step,38); else {el.innerHTML=html; setTimeout(erase,1900);}};
-    const erase=()=>{k--; el.textContent=plain.slice(0,k); if(k>0) setTimeout(erase,16); else {i++; setTimeout(play,250);}};
+    const erase=()=>{k--; el.textContent=plain.slice(0,k); if(k>0) setTimeout(erase,16); else {i++; heroVisible?setTimeout(play,250):(waiting=true);}};
     step();
   }
+  let heroVisible=true,waiting=false;
+  new IntersectionObserver(es=>{heroVisible=es[0].isIntersecting;if(heroVisible&&waiting){waiting=false;play();}}).observe($("#home"));
   play();
 })();
 
@@ -988,8 +997,7 @@ const SECTIONS = [
   ["contact","Contact","Email Studio composer","✉","#06a59a"]
 ];
 $("#apps").innerHTML = SECTIONS.map(([id,n,d,ic,c])=>`<a href="#${id}" data-close-l><i style="background:${c}">${ic}</i><b>${n}</b><small>${d}</small></a>`).join("");
-$("#waffle").onclick=()=>$("#launcher").classList.add("open");
-$$("[data-close-l]").forEach(a=>a.addEventListener("click",()=>$("#launcher").classList.remove("open")));
+$("#waffle").onclick=()=>{$("#launcher").classList.add("open");lockScroll(true);};
 
 const KEYWORDS = {home:"about profile unicef",journey:"career experience nagarro boston salesforce emakina epam timeline education",pipeline:"impact achievements wins cost dedup whatsapp sms deliverability training power bi sales cloud",accelerator:"cohort control group donor lifecycle journeys sql bucketing case study lab",projects:"previous past projects portfolio case studies commerce cloud sfcc ampscript gdpr hubspot pardot airline interaction studio evergage bugaboo ecco mizuno social studio nonprofit pro bono",query:"sql query data extension terminal",skills:"certifications badges ampscript ssjs api trailhead",now:"data cloud next certification future community",contact:"email linkedin hire contact message"};
 const sIn=$("#search"), sOut=$("#results"); let sIdx=0;
@@ -1013,7 +1021,8 @@ document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement.t
 
 const navLinks=$$("#tabs a");
 const spy=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){navLinks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+en.target.id));
-  const on=$("#tabs a.on"); if(on) on.scrollIntoView({block:"nearest",inline:"nearest"});}}),{rootMargin:"-45% 0px -50% 0px"});
+  const on=$("#tabs a.on"),bar=$("#tabs"); if(on){const l=on.offsetLeft-bar.offsetLeft,r=l+on.offsetWidth;
+    if(l<bar.scrollLeft||r>bar.scrollLeft+bar.clientWidth)bar.scrollLeft=Math.max(0,l-24);}}}),{rootMargin:"-45% 0px -50% 0px"});
 $$("main section[id]").forEach(s=>spy.observe(s));
 
 /* reveal + counters */
@@ -1071,7 +1080,6 @@ function renderDeals(){
     const adv=el.querySelector(".adv");if(adv)adv.onclick=()=>moveDeal(i,d.stage+1);
     board.querySelector(`[data-stage="${d.stage}"] .drop`).appendChild(el);
   });
-  $$("#modal [data-close]").forEach(b=>b.onclick=()=>$("#modal").classList.remove("open"));
   $$(".col").forEach(c=>c.querySelector(".cnt").textContent=c.querySelectorAll(".deal").length+" deals");
   const won=DEALS.filter(d=>d.stage===3).length;
   $("#wonCount").textContent=`${won} of ${DEALS.length} closed`;$("#wonBar").style.width=won/DEALS.length*100+"%";
@@ -1204,6 +1212,8 @@ function runSQL(){
   }catch(e){out.innerHTML=`<div class="msg err">✗ ${esc(e)}</div>`;}
 }
 $("#run").onclick=runSQL;
+const sqlBox=$("#sql");const fitSQL=()=>{sqlBox.style.height="auto";sqlBox.style.height=sqlBox.scrollHeight+"px";};
+sqlBox.addEventListener("input",fitSQL);$$("#presets button").forEach(b=>b.addEventListener("click",fitSQL));
 $("#sql").onkeydown=e=>{if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();runSQL();}};
 runSQL();
 
